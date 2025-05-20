@@ -31,8 +31,7 @@ def main():
 
         pygame.Surface.fill(screen, (0, 0, 0))
 
-        for obj in updatable:
-            obj.update(dt)
+        updatable.update(dt)
 
         for obj in drawable:
             obj.draw(screen)
