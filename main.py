@@ -17,7 +17,10 @@ def main():
 
     screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
 
-    player = Player(x, y)
+    updatable = pygame.sprite.Group()
+    drawable = pygame.sprite.Group()
+    Player.containers = (updatable, drawable)
+    Player(x, y)
 
     game_running = True
 
@@ -27,8 +30,13 @@ def main():
                 return
 
         pygame.Surface.fill(screen, (0, 0, 0))
-        player.update(dt)
-        player.draw(screen)
+
+        for obj in updatable:
+            obj.update(dt)
+
+        for obj in drawable:
+            obj.draw(screen)
+
         pygame.display.flip()
         clock.tick(60)
         dt = clock.tick(60) / 1000
