@@ -9,6 +9,9 @@ from constants import (
 )
 from shot import Shot
 
+pygame.mixer.init()
+shot_sound = pygame.mixer.Sound("lasrgun_blast.wav")
+
 
 class Player(CircleShape):
     def __init__(self, x, y, shot_group):
@@ -58,4 +61,5 @@ class Player(CircleShape):
             return
         self.shot_cooldown = PLAYER_SHOOT_COOLDOWN
         shot = Shot(tip.x, tip.y, SHOT_RADIUS, self.rotation)
+        pygame.mixer.Sound.play(shot_sound)
         self.shot_group.add(shot)

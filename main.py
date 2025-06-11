@@ -1,5 +1,7 @@
 import pygame
 import sys
+import time
+
 from constants import *
 from player import Player
 from asteroid import Asteroid
@@ -13,6 +15,13 @@ def main():
     screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
     clock = pygame.time.Clock()
     game_running = True
+
+    # sounds
+    pygame.mixer.init()
+    explosion_sound = pygame.mixer.Sound("explosion.wav")
+    gameover_explosion = pygame.mixer.Sound("gameover_explosion.wav")
+    pygame.mixer.music.load("micron_by_micron.wav")
+    pygame.mixer.music.play(-1)
 
     # groups
     updatable = pygame.sprite.Group()
@@ -41,10 +50,13 @@ def main():
 
         for asteroid in asteroids:
             if asteroid.collision(player):
+                pygame.mixer.Sound.play(gameover_explosion)
+                time.sleep(1)
                 print("Game over!")
                 sys.exit(1)
             for shot in shots:
                 if asteroid.collision(shot):
+                    pygame.mixer.Sound.play(explosion_sound)
                     asteroid.split()
                     shot.kill()
 
